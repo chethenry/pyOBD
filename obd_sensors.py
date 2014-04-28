@@ -105,6 +105,9 @@ def speed_short(code):
 def speed(code):
     return ab(code)
 
+def fuel_preasure(code): # in kPa
+    return a(code) * 3
+
 def rail_preasure(code): # in kPa
     return ab(code) * 0.079
 
@@ -142,18 +145,18 @@ def control_module_voltage(code):
 def o_sensor_lambda(code):
     na    = ab(code) * 2.0 / 65535.0 
     volts = cd(code) * 8.0 / 65535.0
-    return na + ', ' + volts
+    return str(na) + ', ' + str(volts)
 
 def o_sensor_lambda_current(code):
     na    = ab(code) / 32768.0 
     amps  = cd(code) / 256.0 - 128.0
-    return na + ', ' + amps
+    return str(na) + ', ' + str(amps)
 
 def sensor_fuel_trim_volts_percent(code):
     if code != 'FF':
         percent = (b(code) - 128.0) * 100.0 / 128.0
         volts = a(code) / 200.0
-        return volts + ', ' + percent
+        return str(volts) + ', ' + str(percent)
     return 'NA'
 
 def evap_system_vapor_pressure(code):
@@ -166,10 +169,10 @@ def command_equivalence_ratio(code):
     return ab(code) / 32768
 
 def max_values(code):
-    return a(code) + ", " + b(code) + ", " + c(code) + ", " + (d(code) * 10)
+    return str(a(code)) + ', ' + str(b(code)) + ', ' + str(c(code)) + ', ' + str(d(code) * 10)
 
 def max_values_air_flow(code):
-    return (a(code) * 10) + ", " + b(code) + ", " + c(code) + ", " + d(code)
+    return str(a(code) * 10) + ', ' + str(b(code)) + ', ' + str(c(code)) + ', ' + str(d(code))
 
 def absolute_evap_vapor_pres(code):
     return ab(code) / 200.0
@@ -180,7 +183,7 @@ def evap_vapor_pres(code):
 def secondary_oxygen_sensor_trim(code):
     p1 = (a(code) - 128.0) * 100.0 / 128.0
     p2 = (b(code) - 128.0) * 100.0 / 128.0
-    return p1 + ', ' + p2
+    return str(p1) + ', ' + str(p2)
 
 def fuel_injection_timing(code):
     return (ab(code) - 26880.0) / 128.0
@@ -192,7 +195,7 @@ def engine_torque_precent(code):
     return a(code) - 125
 
 def engine_percent_torque_data(code):
-    return (a(code) - 125) + ', ' + (b(code) - 125) + ', ' + (c(code) - 125) + ', ' + (d(code) - 125)
+    return str(a(code) - 125) + ', ' + str(b(code) - 125) + ', ' + str(c(code) - 125) + ', ' + str(d(code) - 125)
 
 def dtc_decrypt(code):
     #first byte is byte after PID and without spaces
@@ -267,7 +270,7 @@ SENSORS = [
     Sensor("                Long Term Fuel Trim", "0107", fuel_trim_percent             ,"%"      ),
     Sensor("               Short Term Fuel Trim", "0108", fuel_trim_percent             ,"%"      ),
     Sensor("                Long Term Fuel Trim", "0109", fuel_trim_percent             ,"%"      ),
-    Sensor("                 Fuel Rail Pressure", "010A", fule_pressure                 ,"kPa"    ),
+    Sensor("                 Fuel Rail Pressure", "010A", fuel_pressure                 ,"kPa"    ),
     Sensor("           Intake Manifold Pressure", "010B", a                             ,"kPa"    ),
     Sensor("                         Engine RPM", "010C", rpm                           ,"rpm"    ),
     Sensor("                      Vehicle Speed", "010D", speed_short                   ,"km/h"   ),
