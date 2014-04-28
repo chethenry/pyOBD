@@ -108,10 +108,15 @@ class OBDPort:
              wx.PostEvent(self._notify_window, DebugEvent([2,"atz response:" + self.ELMver]))
              self.send_command("ate0")  # echo off
              wx.PostEvent(self._notify_window, DebugEvent([2,"ate0 response:" + self.get_result()]))
+             
+             self.send_command("ATSP0")
+             wx.PostEvent(self._notify_window, DebugEvent([2,"ATSP0 response:" + self.get_result()]))
+             
              self.send_command("0100")
+             time.sleep(0.5)
              ready = self.get_result()
              wx.PostEvent(self._notify_window, DebugEvent([2,"0100 response1:" + ready]))
-             if ready=="BUSINIT: ...OK":
+             if ready!="BUS ERROR":
                 ready=self.get_result()
                 wx.PostEvent(self._notify_window, DebugEvent([2,"0100 response2:" + ready]))
                 return None
