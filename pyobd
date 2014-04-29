@@ -132,7 +132,27 @@ class MyApp(wx.App):
                 return None
                 
             self.active   = []
-            self.supp     = self.port.sensor(0)[1] #read supported PIDS
+            
+            self.supp     = "" #read supported PIDS
+            supported_pids_check = [0, 32, 64, 96, 128, 160, 192, 224]
+            
+            for pid_check in supported_pids_check:
+                check = self.port.sensor(pid_check)[1]
+                if check != "NODATA":
+                    self.supp += check
+                else:
+                    break
+                
+                
+            
+            #0
+            #32
+            #64
+            #96
+            #128
+            #160
+            #192
+            #224
             
             self.active.append(1); #PID 0 is always supported
             

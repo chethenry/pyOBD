@@ -29,10 +29,14 @@ def twos_comp(val, bits):
     return val
 
 def twos_to_int(hex):
-    twos_comp(hex_to_int(hex), 32);
+    if hex != '':
+        twos_comp(hex_to_int(hex), 32);
+    return 0
 
 def hex_to_int(str):
-    return int(str, 16)
+    if str != '':
+        return int(str, 16)
+    return 0
 
 
 def ab(hex):
