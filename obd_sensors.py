@@ -101,7 +101,7 @@ def intake_m_pres(code): # in kPa
     return code / 0.14504
     
 def rpm(code):
-    return ((a(code)*256)+b(code))/4
+    return ab(code)/4
 
 def speed_short(code):
     return a(code)
