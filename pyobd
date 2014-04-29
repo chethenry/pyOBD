@@ -142,32 +142,26 @@ class MyApp(wx.App):
                     self.supp += check
                 else:
                     break
-                
-                
-            
-            #0
-            #32
-            #64
-            #96
-            #128
-            #160
-            #192
-            #224
-            
-            self.active.append(1); #PID 0 is always supported
-            
-            wx.PostEvent(self._notify_window, ResultEvent([0,0,"X"]))
+
+            self.supp = self.supp.ljust(len(obd_io.obd_sensors.SENSORS), '0')
+                        
             wx.PostEvent(self._notify_window, DebugEvent([1,"Communication initialized..."]))
-            
-            for i in range(1, len(self.supp)):
-                if self.supp[i-1] == "1": #put X in coloum if PID is supported
-                    self.active.append(1)
-                    wx.PostEvent(self._notify_window, ResultEvent([i,0,"X"]))
+
+            remove_sensors = []
+
+            for i in range(0, len(self.supp)):
+                if self.supp[i-1] != "1" or i in supported_pids_check: #put X in coloum if PID is supported
+                    remove_sensors.insert(0, i)
                 else:
-                    self.active.append(0)
-                    wx.PostEvent(self._notify_window, ResultEvent([i,0,""]))
+                    self.active.append(i)
+                    
+            for sensor_index in remove_sensors:
+                app.sensors.DeleteItem(sensor_index)
+                del obd_io.obd_sensors.SENSORS[sensor_index]
+            
             return "OK"
         
+            
         def run(self):
             wx.PostEvent(self._notify_window, StatusEvent([0,1,"Connecting...."]))
             self.initCommunication()
@@ -195,7 +189,7 @@ class MyApp(wx.App):
                   for i in range(3, len(self.active)):
                       if self.active[i]:
                           s = self.port.sensor(i)
-                          wx.PostEvent(self._notify_window, ResultEvent([i,2,"%s (%s)" % (s[1], s[2])]))
+                          wx.PostEvent(self._notify_window, ResultEvent([i,1,"%s (%s)" % (s[1], s[2])]))
                       if self._notify_window.ThreadControl==666:
                           break
                 elif curstate==3: #show DTC tab
@@ -300,13 +294,10 @@ class MyApp(wx.App):
                                   wx.LC_SINGLE_SEL)
      
 
-        self.sensors.InsertColumn(0, "Supported",width=70)
-        self.sensors.InsertColumn(1, "Sensor",format=wx.LIST_FORMAT_RIGHT, width=250)
-        self.sensors.InsertColumn(2, "Value")
+        self.sensors.InsertColumn(0, "Sensor",format=wx.LIST_FORMAT_RIGHT, width=250)
+        self.sensors.InsertColumn(1, "Value")
         for i in range(0, len(obd_io.obd_sensors.SENSORS)):
-            s = obd_io.obd_sensors.SENSORS[i].name
-            self.sensors.InsertStringItem(i, "")
-            self.sensors.SetStringItem(i, 1, s)
+            self.sensors.InsertStringItem(i, obd_io.obd_sensors.SENSORS[i].name)
             
         
         ####################################################################
