@@ -45,8 +45,8 @@ https://www.sparkfun.com/datasheets/Widgets/ELM327_AT_Commands.pdf
 * Remove sensors from list that are not supported by the connected auto.
 
 ### TODO
-* Obtain a more complient ELM32x reader that can forward CAN messages
-* Add a CAN messages tab that will display raw messages: https://www.sparkfun.com/products/9555
+* Obtain a more complient ELM32x reader that can forward CAN messages: https://www.sparkfun.com/products/9555
+* Add a CAN messages tab that will display raw messages
 * Add decoding for known CAN messages
 * Add hooks to the sensor tab for related CAN messages
 
