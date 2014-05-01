@@ -21,9 +21,9 @@ A car supporting OBD-II
 ```bash
 sudo usermod -a -G dialout [your_user_name]
 sudo apt-get install python-wxgtk2.8
-git clone https://github.com/chethenry/pyODB
-cd pyODB
-./pyODB
+git clone https://github.com/chethenry/pyOBD
+cd pyOBD
+./pyOBD
 ```
 
 ### Hacking Guide
