@@ -1,4 +1,4 @@
-pyODB
+pyOBD
 =====
 
 Fork from http://www.obdtester.com/pyobd, a OBD-II compliant car diagnostic tool.
