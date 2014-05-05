@@ -116,7 +116,6 @@ class OBDPort:
              ready = self.get_result()
              wx.PostEvent(self._notify_window, DebugEvent([2,"0100 response1:" + ready]))
              if ready!="BUS ERROR":
-                ready=self.get_result()
                 wx.PostEvent(self._notify_window, DebugEvent([2,"0100 response2:" + ready]))
                 return None
              else:             
@@ -238,7 +237,7 @@ class OBDPort:
             statusTrans.append("On")
             
          for i in range(2,len(statusRes)): #Tests
-              statusTrans.append(statusText[statusRes[i]]) 
+              statusTrans.append(statusText[int(statusRes[int(i)])]) 
          
          return statusTrans
           
@@ -258,7 +257,7 @@ class OBDPort:
           
           print "Number of stored DTC:" + str(dtcNumber) + " MIL: " + str(mil)
           # get all DTC, 3 per mesg response
-          for i in range(0, ((dtcNumber+2)/3)):
+          for i in range(0, ((int(dtcNumber) + 2) / 3)):
             self.send_command(GET_DTC_COMMAND)
             res = self.get_result()
             print "DTC result:" + res
